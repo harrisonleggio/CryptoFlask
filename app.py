@@ -1,5 +1,9 @@
 from flask import Flask, render_template
 from pypoloniex import TimeSeries
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from matplotlib.finance import _candlestick
 
 
 app = Flask(__name__)
@@ -18,10 +22,14 @@ def scrape_coins():
     pair = ('BTC', 'LTC')
     period = 86400
     start = '1/7/2017'
-    end = '20/7/2017'
+    end = '3/7/2017'
 
     sess.getData(pair, period, start, end)
     sess.show()
+    df = sess.data
+    df.set_index('date', inplace=True)
+    print df.tail()
+
 
 
 
