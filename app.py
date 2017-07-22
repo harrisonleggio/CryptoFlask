@@ -1,6 +1,5 @@
 from flask import Flask, render_template
-from coinmarketcap import Market
-
+from pypoloniex import TimeSeries
 
 
 app = Flask(__name__)
@@ -14,9 +13,16 @@ def index():
 
 
 def scrape_coins():
-    coinmarketcap = Market()
-    data = coinmarketcap.ticker(convert="USD")
-    print data
+
+    sess = TimeSeries()
+    pair = ('BTC', 'LTC')
+    period = 86400
+    start = '1/7/2017'
+    end = '20/7/2017'
+
+    sess.getData(pair, period, start, end)
+    sess.show()
+
 
 
 if __name__ == '__main__':
