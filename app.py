@@ -3,7 +3,7 @@ from pypoloniex import TimeSeries
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from matplotlib.finance import _candlestick
+
 
 
 app = Flask(__name__)
@@ -13,6 +13,11 @@ app = Flask(__name__)
 def index():
     scrape_coins()
     return render_template('index.html')
+
+
+@app.route('/coins/<coin>')
+def get_coin(coin):
+    return coin
 
 
 
@@ -32,7 +37,6 @@ def scrape_coins():
 
 
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
 
