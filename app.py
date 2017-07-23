@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request
-from pypoloniex import TimeSeries
+from pypoloniex import LoadPairs, TimeSeries
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-
 
 
 app = Flask(__name__)
@@ -43,18 +41,10 @@ def get_search():
 
 
 def scrape_coins():
-    sess = TimeSeries()
+    sess = LoadPairs()
     pair = ('BTC', 'LTC')
-    period = 86400
-    start = '1/7/2017'
-    end = '3/7/2017'
-
-    sess.getData(pair, period, start, end)
-    #sess.show()
-    df = sess.data
-    df.set_index('date', inplace=True)
-    print df.tail()
-
+    ltc = sess.getPair(market='USDT', coin='LTC')
+    print ltc
 
 
 if __name__ == '__main__':
