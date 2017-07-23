@@ -42,9 +42,27 @@ def get_search():
 
 def scrape_coins():
     sess = LoadPairs()
-    pair = ('BTC', 'LTC')
+    pair = ('USDT', 'LTC')
     ltc = sess.getPair(market='USDT', coin='LTC')
     print ltc
+
+    sess1 = TimeSeries()
+    period = 86400
+    start = '10/7/2017'
+    end = '23/7/2017'
+    sess1.getData(pair, period, start, end)
+
+    #sess1.show()
+    df = sess1.data
+    #print df
+
+    df['date'] = df['date'].map(lambda x: x.replace('20:00:00', ''))
+
+    graph = df.plot(x='date', y='close')
+    fig = graph.get_figure()
+    fig.savefig('plots/graph.png')
+
+
 
 
 if __name__ == '__main__':
