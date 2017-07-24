@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from pypoloniex import LoadPairs, TimeSeries
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='/Users/Harrison/PycharmProjects/FlaskCrypto/static/images')
 
 
 @app.route('/')
@@ -40,7 +40,6 @@ def get_search():
     return scrape_coins(coin_name)
 
 
-
 def scrape_coins(coin_name):
 
     print coin_name
@@ -57,13 +56,13 @@ def scrape_coins(coin_name):
     df = sess.data
     print df
 
-    df['date'] = df['date'].map(lambda x: x.replace('20:00:00', ''))
-
     graph = df.plot(x='date', y='close')
     fig = graph.get_figure()
-    fig.savefig('static/images/graph.png')
+    #filepath = 'static/images/graph.png'
+    #fig.savefig(filepath)
 
-    return render_template('search_result.html', filename='/static/images/graph.png')
+
+    return render_template('search_result.html', coin_name=coin_name)
 
 
 
