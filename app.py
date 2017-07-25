@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file
 from pypoloniex import LoadPairs, TimeSeries
 import pandas as pd
 import matplotlib.pyplot as plt
+import StringIO
 
 
 
@@ -40,6 +41,12 @@ def get_search():
     return scrape_coins(coin_name)
 
 
+@app.route('/images/<coin_name>')
+def images(coin_name):
+    return render_template("search_result.html", title=coin_name)
+
+
+@app.route('/scrape_coins/<coin_name>', methods=['GET'])
 def scrape_coins(coin_name):
 
     print coin_name
@@ -52,17 +59,19 @@ def scrape_coins(coin_name):
     end = '23/7/2017'
     sess.getData(pair, period, start, end)
 
-    #sess1.show()
     df = sess.data
-    print df
 
     graph = df.plot(x='date', y='close')
     fig = graph.get_figure()
-    #filepath = 'static/images/graph.png'
-    #fig.savefig(filepath)
+    filepath = 'static/images/graph.png'
+    fig.savefig(filepath)
+
+    img = StringIO.StringIO()
+    fig.savefig(img)
+    img.seek(0)
 
 
-    return render_template('search_result.html', coin_name=coin_name)
+    return send_file(img, mimetype='image/png')
 
 
 

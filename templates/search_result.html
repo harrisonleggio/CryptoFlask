@@ -30,10 +30,8 @@
 
 </center>
 
-<p><center>
-    <h1>{{ coin_name }}</h1>
-    <img src="{{ url_for('static', filename = 'graph.png') }}">
-
-</center></p>
+<body>
+    <img src="{{ url_for('scrape_coins', coin_name = title) }}">
+</body>
 
 </html>
