@@ -24,14 +24,14 @@
 <h2>Search For a Cryptocurrency</h2>
     <br>
 <form action="/search" method="POST">
-    <input type="text" name="coin_name">
+    <input type="text" name="coin_name" maxlength="3">
     <input type="submit" name="search_bar" value="Search">
 </form>
 
 </center>
 
 <body>
-    <img src="{{ url_for('scrape_coins', coin_name = title) }}">
+    <center><img src="{{ url_for('scrape_coins', coin_name = title, duration = duration) }}"></center>
 </body>
 
 </html>

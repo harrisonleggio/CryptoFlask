@@ -3,6 +3,7 @@ from pypoloniex import LoadPairs, TimeSeries
 import pandas as pd
 import matplotlib.pyplot as plt
 import StringIO
+import datetime
 
 
 
@@ -37,25 +38,26 @@ Getting data from search bar
 """
 @app.route('/search', methods=['POST'])
 def get_search():
-    coin_name = request.form['coin_name']
-    return scrape_coins(coin_name)
-
+    coin_name = request.form['coin_name'].upper()
+    duration = request.form['duration']
+    print duration
+    #return display_graph(coin_name)
+    return scrape_coins(coin_name, duration)
 
 @app.route('/images/<coin_name>')
-def images(coin_name):
+def display_graph(coin_name):
     return render_template("search_result.html", title=coin_name)
 
 
-@app.route('/scrape_coins/<coin_name>', methods=['GET'])
-def scrape_coins(coin_name):
-
-    print coin_name
+@app.route('/scrape_coins/<coin_name><duration>', methods=['GET'])
+def scrape_coins(coin_name, duration):
 
     pair = ('USDT', coin_name)
 
     sess = TimeSeries()
     period = 86400
-    start = '1/3/2017'
+    start = datetime.datetime.now()
+    print start
     end = '23/7/2017'
     sess.getData(pair, period, start, end)
 
@@ -63,8 +65,8 @@ def scrape_coins(coin_name):
 
     graph = df.plot(x='date', y='close')
     fig = graph.get_figure()
-    filepath = 'static/images/graph.png'
-    fig.savefig(filepath)
+    #filepath = 'static/images/graph.png'
+    #fig.savefig(filepath)
 
     img = StringIO.StringIO()
     fig.savefig(img)

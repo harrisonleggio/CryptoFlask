@@ -24,7 +24,17 @@
 <h2>Search For a Cryptocurrency</h2>
     <br>
 <form action="/search" method="POST">
-    <input type="text" name="coin_name">
+    <input type="text" name="coin_name" maxlength="3">
+    <select name="duration">
+        <option value="1">1 Day</option>
+        <option value="3">7 Days</option>
+        <option value="7">1 Week</option>
+        <option value="14">2 Weeks</option>
+        <option value="30">1 Month</option>
+        <option value="90">3 Months</option>
+        <option value="180">6 Months</option>
+        <option value="365">1 Year</option>
+    </select>
     <input type="submit" name="search_bar" value="Search">
 </form>
 </center>
