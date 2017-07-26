@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import StringIO
 import datetime
+from datetime import timedelta, date
 
 
 
@@ -40,9 +41,8 @@ Getting data from search bar
 def get_search():
     coin_name = request.form['coin_name'].upper()
     duration = request.form['duration']
-    print duration
-    #return display_graph(coin_name)
-    return scrape_coins(coin_name, duration)
+    return display_graph(coin_name)
+    #return scrape_coins(coin_name, duration)
 
 @app.route('/images/<coin_name>')
 def display_graph(coin_name):
@@ -56,12 +56,13 @@ def scrape_coins(coin_name, duration):
 
     sess = TimeSeries()
     period = 86400
-    start = datetime.datetime.now()
-    print start
-    end = '23/7/2017'
+    end = datetime.date.today().strftime('%d/%-m/%Y')
+    start = (datetime.date.today() - timedelta(days=int(duration))).strftime('%d/%-m/%Y')
     sess.getData(pair, period, start, end)
 
     df = sess.data
+
+    print df
 
     graph = df.plot(x='date', y='close')
     fig = graph.get_figure()
